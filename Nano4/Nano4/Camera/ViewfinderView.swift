@@ -1,15 +1,8 @@
-//
-//  ViewfinderView.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
-
 import SwiftUI
 
 struct ViewfinderView: View {
     @Binding var image: Image?
-    
+
     var body: some View {
         GeometryReader { geometry in
             if let image = image {

@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import MijickCamera
 
 struct CameraView: View {
 
     @StateObject private var model = DataModel()
-    //@State private var delayCount = 0 (OA)
- 
+
     private static let barHeightFactor = 0.15
     
     var body: some View {
@@ -45,8 +45,6 @@ struct CameraView: View {
             }
             .task {
                 await model.camera.start()
-                await model.loadPhotos()
-                await model.loadThumbnail()
             }
             .navigationTitle("Camera")
             .navigationBarTitleDisplayMode(.inline)
@@ -61,36 +59,8 @@ struct CameraView: View {
             
             Spacer()
             
-            NavigationLink {
-                PhotoCollectionView(photoCollection: model.photoCollection)
-                //destino: coleção de fotos
-                
-                    .onAppear {
-                        model.camera.isPreviewPaused = true
-                    }
-                    .onDisappear {
-                        model.camera.isPreviewPaused = false
-                    }
-                //se concentrar o dispositivo em exibir as fotos da fototeca ao invés da camera
-            } label: {
-                Label {
-                    Text("Gallery")
-                } icon: {
-                    ThumbnailView(image: model.thumbnailImage)
-                }
-            }
-            //ícone a esquerda que leva vc a galeria de fotos.
             Button {
-            //se vc quiser adcionar um obturador atrasado. Como captura com contagem regressiva, vc precisa adicionar um pequeno atraso depois de clicar no botão. Veja o código obturador atrasado (OA)
-                model.camera.takePhoto() //comente essa linha (OA)
-                //delayCount = 5 (OA)
-                //Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                //delayCount -= 1
-            //} (OA)
-                //if delayCount == 0 {
-                //timer.invalidate()
-                //model.camera.takePhoto()
-            //}
+                model.camera.takePhoto()
             } label: {
                 Label {
                     Text("Take Photo")
@@ -103,11 +73,6 @@ struct CameraView: View {
                             .fill(.white)
                             .frame(width: 50, height: 50)
                     }
-                    //if delayCount > 0 {
-                    //Text("\(delayCount)")
-                //}
-                // Mostra a contagem regressiva ali mesmo no botão
-
                 }
             }
             
@@ -128,7 +93,3 @@ struct CameraView: View {
     }
     
 }
-
-//print("Timer \(delayCount) \(Date.now)") (OA)
-
-

@@ -1,10 +1,3 @@
-//
-//  CachedImageManager.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
-
 import UIKit
 internal import Photos
 import SwiftUI
@@ -29,6 +22,10 @@ actor CachedImageManager {
         options.deliveryMode = .opportunistic
         return options
     }()
+    
+    init() {
+        imageManager.allowsCachingHighQualityImages = false
+    }
     
     var cachedImageCount: Int {
         cachedAssetIdentifiers.keys.count

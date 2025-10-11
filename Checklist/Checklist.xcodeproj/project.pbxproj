@@ -7,114 +7,125 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		117365202E96A35400273C62 /* MijickCamera in Frameworks */ = {isa = PBXBuildFile; productRef = 1173651F2E96A35400273C62 /* MijickCamera */; };
+		11EC47E22E96D63F00CCCBA6 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 11EC47E12E96D63F00CCCBA6 /* FirebaseAI */; };
+		11EC47E72E96D66900CCCBA6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 11EC47E62E96D66900CCCBA6 /* FirebaseAnalytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		117364192E9535FD00273C62 /* Nano4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nano4.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11EC47D22E96D57D00CCCBA6 /* Checklist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		1173641B2E9535FD00273C62 /* Nano4 */ = {
+		11EC47D42E96D57D00CCCBA6 /* Checklist */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Nano4;
+			path = Checklist;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		117364162E9535FD00273C62 /* Frameworks */ = {
+		11EC47CF2E96D57D00CCCBA6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				117365202E96A35400273C62 /* MijickCamera in Frameworks */,
+				11EC47E72E96D66900CCCBA6 /* FirebaseAnalytics in Frameworks */,
+				11EC47E22E96D63F00CCCBA6 /* FirebaseAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		117364102E9535FD00273C62 = {
+		11EC47C92E96D57D00CCCBA6 = {
 			isa = PBXGroup;
 			children = (
-				1173641B2E9535FD00273C62 /* Nano4 */,
-				1173641A2E9535FD00273C62 /* Products */,
+				11EC47D42E96D57D00CCCBA6 /* Checklist */,
+				11EC47E52E96D66900CCCBA6 /* Frameworks */,
+				11EC47D32E96D57D00CCCBA6 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		1173641A2E9535FD00273C62 /* Products */ = {
+		11EC47D32E96D57D00CCCBA6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				117364192E9535FD00273C62 /* Nano4.app */,
+				11EC47D22E96D57D00CCCBA6 /* Checklist.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		11EC47E52E96D66900CCCBA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		117364182E9535FD00273C62 /* Nano4 */ = {
+		11EC47D12E96D57D00CCCBA6 /* Checklist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 117364242E9535FE00273C62 /* Build configuration list for PBXNativeTarget "Nano4" */;
+			buildConfigurationList = 11EC47DD2E96D57E00CCCBA6 /* Build configuration list for PBXNativeTarget "Checklist" */;
 			buildPhases = (
-				117364152E9535FD00273C62 /* Sources */,
-				117364162E9535FD00273C62 /* Frameworks */,
-				117364172E9535FD00273C62 /* Resources */,
+				11EC47CE2E96D57D00CCCBA6 /* Sources */,
+				11EC47CF2E96D57D00CCCBA6 /* Frameworks */,
+				11EC47D02E96D57D00CCCBA6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				1173641B2E9535FD00273C62 /* Nano4 */,
+				11EC47D42E96D57D00CCCBA6 /* Checklist */,
 			);
-			name = Nano4;
+			name = Checklist;
 			packageProductDependencies = (
-				1173651F2E96A35400273C62 /* MijickCamera */,
+				11EC47E12E96D63F00CCCBA6 /* FirebaseAI */,
+				11EC47E62E96D66900CCCBA6 /* FirebaseAnalytics */,
 			);
-			productName = Nano4;
-			productReference = 117364192E9535FD00273C62 /* Nano4.app */;
+			productName = Checklist;
+			productReference = 11EC47D22E96D57D00CCCBA6 /* Checklist.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		117364112E9535FD00273C62 /* Project object */ = {
+		11EC47CA2E96D57D00CCCBA6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					117364182E9535FD00273C62 = {
+					11EC47D12E96D57D00CCCBA6 = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
 			};
-			buildConfigurationList = 117364142E9535FD00273C62 /* Build configuration list for PBXProject "Nano4" */;
+			buildConfigurationList = 11EC47CD2E96D57D00CCCBA6 /* Build configuration list for PBXProject "Checklist" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 117364102E9535FD00273C62;
+			mainGroup = 11EC47C92E96D57D00CCCBA6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				1173651E2E96A35400273C62 /* XCRemoteSwiftPackageReference "Camera" */,
+				11EC47E02E96D63F00CCCBA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 1173641A2E9535FD00273C62 /* Products */;
+			productRefGroup = 11EC47D32E96D57D00CCCBA6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				117364182E9535FD00273C62 /* Nano4 */,
+				11EC47D12E96D57D00CCCBA6 /* Checklist */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		117364172E9535FD00273C62 /* Resources */ = {
+		11EC47D02E96D57D00CCCBA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,7 +135,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		117364152E9535FD00273C62 /* Sources */ = {
+		11EC47CE2E96D57D00CCCBA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -134,7 +145,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		117364222E9535FE00273C62 /* Debug */ = {
+		11EC47DB2E96D57E00CCCBA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -187,16 +198,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		117364232E9535FE00273C62 /* Release */ = {
+		11EC47DC2E96D57E00CCCBA6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -243,14 +256,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		117364252E9535FE00273C62 /* Debug */ = {
+		11EC47DE2E96D57E00CCCBA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -258,46 +274,32 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5TDTFBMU43;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Need access to camera for medical usage";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.debora.Nano4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.debora.Checklist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
-		117364262E9535FE00273C62 /* Release */ = {
+		11EC47DF2E96D57E00CCCBA6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -305,62 +307,48 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5TDTFBMU43;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Need access to camera for medical usage";
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.debora.Nano4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.debora.Checklist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		117364142E9535FD00273C62 /* Build configuration list for PBXProject "Nano4" */ = {
+		11EC47CD2E96D57D00CCCBA6 /* Build configuration list for PBXProject "Checklist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				117364222E9535FE00273C62 /* Debug */,
-				117364232E9535FE00273C62 /* Release */,
+				11EC47DB2E96D57E00CCCBA6 /* Debug */,
+				11EC47DC2E96D57E00CCCBA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		117364242E9535FE00273C62 /* Build configuration list for PBXNativeTarget "Nano4" */ = {
+		11EC47DD2E96D57E00CCCBA6 /* Build configuration list for PBXNativeTarget "Checklist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				117364252E9535FE00273C62 /* Debug */,
-				117364262E9535FE00273C62 /* Release */,
+				11EC47DE2E96D57E00CCCBA6 /* Debug */,
+				11EC47DF2E96D57E00CCCBA6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -368,23 +356,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1173651E2E96A35400273C62 /* XCRemoteSwiftPackageReference "Camera" */ = {
+		11EC47E02E96D63F00CCCBA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Mijick/Camera.git";
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.3;
+				minimumVersion = 12.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1173651F2E96A35400273C62 /* MijickCamera */ = {
+		11EC47E12E96D63F00CCCBA6 /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1173651E2E96A35400273C62 /* XCRemoteSwiftPackageReference "Camera" */;
-			productName = MijickCamera;
+			package = 11EC47E02E96D63F00CCCBA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		11EC47E62E96D66900CCCBA6 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11EC47E02E96D63F00CCCBA6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 117364112E9535FD00273C62 /* Project object */;
+	rootObject = 11EC47CA2E96D57D00CCCBA6 /* Project object */;
 }

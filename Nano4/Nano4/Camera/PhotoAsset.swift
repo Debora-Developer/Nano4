@@ -1,9 +1,3 @@
-//
-//  PhotoAsset.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
 internal import Photos
 import os.log
 
@@ -79,6 +73,9 @@ extension PhotoAsset: Hashable {
     }
 }
 
-fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
+extension Photos.PHObject: Swift.Identifiable {
+    public var id: String { localIdentifier }
+}
 
+fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "PhotoAsset")
 

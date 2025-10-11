@@ -1,15 +1,7 @@
-//
-//  PhotoItemView.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
-
 import SwiftUI
 internal import Photos
 
 struct PhotoItemView: View {
-
     var asset: PhotoAsset
     var cache: CachedImageManager?
     var imageSize: CGSize
@@ -41,3 +33,4 @@ struct PhotoItemView: View {
         }
     }
 }
+

@@ -1,18 +1,15 @@
-//
-//  PhotoView.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
-
 import SwiftUI
 internal import Photos
 
+
 struct PhotoView: View {
     //Para mostrar uma foto sozinha. Vc mostra uma imagem em alta resolução e uma sobreposição para apagar a foto ou marca-la como favorita
+
     var asset: PhotoAsset
+
     var cache: CachedImageManager?
     //referencia ao cache da imagem. Voce pode solicitar uma imagem de um tamanho especificado a partir do cache. Ele tb mantem as imagens solicitadas recentemente na memória para não precisar recarrega-las.
+
     @State private var image: Image?
     //É um tipo - Image? - opcional porque vc quer que ele não tenha um valor de início
     @State private var imageRequestID: PHImageRequestID?
@@ -21,6 +18,7 @@ struct PhotoView: View {
     
     var body: some View {
         Group {
+
             if let image = image {
                 image
                     .resizable()
@@ -28,6 +26,7 @@ struct PhotoView: View {
                 //Se image tiver um valor, vc desempacota a imagem e mostra na visualizaçõa com as características acima
                     .accessibilityLabel(asset.accessibilityLabel)
             } else {
+
                 ProgressView()
                 //Se não (tiver um valor), usa a ProgressView para mostrar um indicador giratório como marcador de posição.
             }
@@ -52,7 +51,7 @@ struct PhotoView: View {
                 }
                 //Recebe uma ou mais chamadas do cache. Se o cache já tiver a imagem que vc solicitou, ele chama a imagem em seu result. Se o cache não tiver, ele carregará a imagem do material e armazenará no cache.
             }
-        //solicitação de uma imagem de alta resolução a partir do cache do recurso de foto. Especificando o tamanho desejado.
+        //solicitação de uma imagem de alta resolução a partir do cache do recurso de foto. Especificando o tamanho desejado
         }
     //modificador para executar o código assincronamente sempre que a visualização é carregada
     }

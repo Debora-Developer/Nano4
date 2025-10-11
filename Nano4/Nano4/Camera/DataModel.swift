@@ -17,9 +17,6 @@ final class DataModel: ObservableObject {
     let camera = Camera()
     //propriedade que representa uma das câmeras do dispositivo. Pode ser a camera frontal ou traseira que dá para alterar com o método switchCaptureDevice()
 
-    let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)
-    //pode representar qualquer coleção de itens na sua fototeca. Inclui todas as fotos da fototeca. Antes vc tem que adicionar a capacidade da Fototeca.
-    
     @Published var viewfinderImage: Image?
 
     @Published var thumbnailImage: Image?
@@ -71,8 +68,6 @@ final class DataModel: ObservableObject {
             //use a imagem de miniatura para atualizar a propriedade do seu modelo
  
             }
-            savePhoto(imageData: photoData.imageData)
-            //salvar os dados da imagem de photoData como uma foto nova na fototeca
         }
         //esse loop está esperando que um elemento photoData chegue ao fluxo desempacotado antes de processá-lo
     }
@@ -95,45 +90,7 @@ final class DataModel: ObservableObject {
         return PhotoData(thumbnailImage: thumbnailImage, thumbnailSize: thumbnailSize, imageData: imageData, imageSize: imageSize)
     }
     
-    func savePhoto(imageData: Data) {
-        Task {
-            do {
-                try await photoCollection.addImage(imageData)
-                logger.debug("Added image data to photo collection.")
-            } catch let error {
-                logger.error("Failed to add image to photo collection: \(error.localizedDescription)")
-            }
-        }
-    }
     //Ele cria uma tarefa e passa o trabalho de salvar os dados da foto para o objeto photoCollection chamando de addImage(_:)
-    
-    func loadPhotos() async {
-        guard !isPhotosLoaded else { return }
-        
-        let authorized = await PhotoLibrary.checkAuthorization()
-        guard authorized else {
-            logger.error("Photo library access was not authorized.")
-            return
-        }
-        
-        do {
-            try await self.photoCollection.load()
-            isPhotosLoaded = true
-        } catch let error {
-            logger.error("Failed to load photo collection: \(error.localizedDescription)")
-        }
-    }
-    
-    func loadThumbnail() async {
-        guard let asset = photoCollection.photoAssets.first  else { return }
-        await photoCollection.cache.requestImage(for: asset, targetSize: CGSize(width: 256, height: 256))  { result in
-            if let result = result {
-                Task { @MainActor in
-                    self.thumbnailImage = result.image
-                }
-            }
-        }
-    }
 }
 
 fileprivate struct PhotoData {

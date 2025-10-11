@@ -1,16 +1,11 @@
-//
-//  Camera.swift
-//  Nano4
-//
-//  Created by Débora Costa on 07/10/25.
-//
-
 import AVFoundation
 import CoreImage
 import UIKit
 import os.log
 
-class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
+
+class Camera: NSObject {
+
     private let captureSession = AVCaptureSession()
     private var isCaptureSessionConfigured = false
     private var deviceInput: AVCaptureDeviceInput?
@@ -34,16 +29,16 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
     
     private var captureDevices: [AVCaptureDevice] {
         var devices = [AVCaptureDevice]()
-#if os(macOS) || (os(iOS) && targetEnvironment(macCatalyst))
+        #if os(macOS) || (os(iOS) && targetEnvironment(macCatalyst))
         devices += allCaptureDevices
-#else
+        #else
         if let backDevice = backCaptureDevices.first {
             devices += [backDevice]
         }
         if let frontDevice = frontCaptureDevices.first {
             devices += [frontDevice]
         }
-#endif
+        #endif
         return devices
     }
     
@@ -74,17 +69,17 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
         guard let captureDevice = captureDevice else { return false }
         return backCaptureDevices.contains(captureDevice)
     }
-    
+
     private var addToPhotoStream: ((AVCapturePhoto) -> Void)?
     
     private var addToPreviewStream: ((CIImage) -> Void)?
     
     var isPreviewPaused = false
     
-
+  
     lazy var previewStream: AsyncStream<CIImage> = {
         //recebe as imagens de pré visualização
-
+   
         AsyncStream { continuation in
             addToPreviewStream = { ciImage in
                 if !self.isPreviewPaused {
@@ -101,7 +96,7 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
             }
         }
     }()
-    
+        
     override init() {
         super.init()
         initialize()
@@ -109,7 +104,7 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
     
     private func initialize() {
         sessionQueue = DispatchQueue(label: "session queue")
-        
+                
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(updateForDeviceOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
@@ -134,12 +129,12 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
         }
         
         let photoOutput = AVCapturePhotoOutput()
-        
+                        
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
-        
+
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "VideoDataOutputQueue"))
-        
+  
         guard captureSession.canAddInput(deviceInput) else {
             logger.error("Unable to add device input to capture session.")
             return
@@ -209,7 +204,7 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
         
         captureSession.beginConfiguration()
         defer { captureSession.commitConfiguration() }
-        
+
         for input in captureSession.inputs {
             if let deviceInput = input as? AVCaptureDeviceInput {
                 captureSession.removeInput(deviceInput)
@@ -244,9 +239,11 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
     }
     
     //await model.camera.start() chama a câmera
-    
+
+
     func start() async {
         //a saída de vídeo produz um fluxo de imagens em baixa resolução na velocidade de 60 quadros por segundo
+  
         let authorized = await checkAuthorization()
         guard authorized else {
             logger.error("Camera access was not authorized.")
@@ -295,38 +292,113 @@ class Camera: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureP
             }
         }
     }
-    
+
     private var deviceOrientation: UIDeviceOrientation {
-        let orientation = UIDevice.current.orientation
-        if orientation == .unknown {
-            return .portrait
+        var orientation = UIDevice.current.orientation
+        if orientation == UIDeviceOrientation.unknown {
+            orientation = UIScreen.main.orientation
         }
         return orientation
     }
-        
+    
     @objc
     func updateForDeviceOrientation() {
         //TODO: Figure out if we need this for anything.
+    }
+    
+    private func videoOrientationFor(_ deviceOrientation: UIDeviceOrientation) -> AVCaptureVideoOrientation? {
+        switch deviceOrientation {
+        case .portrait: return AVCaptureVideoOrientation.portrait
+        case .portraitUpsideDown: return AVCaptureVideoOrientation.portraitUpsideDown
+        case .landscapeLeft: return AVCaptureVideoOrientation.landscapeRight
+        case .landscapeRight: return AVCaptureVideoOrientation.landscapeLeft
+        default: return nil
         }
-        
+    }
+    
     func takePhoto() {
-        guard let photoOutput = self.photoOutput,
-              let deviceInput = self.deviceInput else { return }
-
+        guard let photoOutput = self.photoOutput else { return }
+    //a imagem de pré visualização tem uma resolução mais baixa. A camera tem uma saída de fotos que o método takePhoto() usa para capturar imagens em alta resolução
+        
         sessionQueue.async {
+        
             var photoSettings = AVCapturePhotoSettings()
 
             if photoOutput.availablePhotoCodecTypes.contains(.hevc) {
                 photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])
             }
-
-            let isFlashAvailable = deviceInput.device.isFlashAvailable
+            
+            let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
             photoSettings.flashMode = isFlashAvailable ? .auto : .off
-
+            if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+                photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
+            }
+            photoSettings.photoQualityPrioritization = .balanced
+            
+            if let photoOutputVideoConnection = photoOutput.connection(with: .video) {
+                if photoOutputVideoConnection.isVideoOrientationSupported,
+                    let videoOrientation = self.videoOrientationFor(self.deviceOrientation) {
+                    photoOutputVideoConnection.videoOrientation = videoOrientation
+                }
+            }
+            
+            /*#-code-walkthrough(photoflow.capturePhoto)*/
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
+        //pede que a saída da foto capture uma foto. Esse é o momento que ouve o "clique". O método capturePhoto é assincrono, o que faz com que a foto capturada chegue um pouco depois de clicar no botão.
+            /*#-code-walkthrough(photoflow.capturePhoto)*/
         }
     }
-
-    
-    fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "Camera")
 }
+
+extension Camera: AVCapturePhotoCaptureDelegate {
+    
+    /*#-code-walkthrough(photoflow.didFinishProcessingPhoto)*/
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        /*#-code-walkthrough(photoflow.didFinishProcessingPhoto)*/
+        //depois que a foto é capturada, essa função dá um retorno da foto capturada com uma instancia de AVCapturePhoto
+        if let error = error {
+            logger.error("Error capturing photo: \(error.localizedDescription)")
+            return
+        }
+        
+        /*#-code-walkthrough(photoflow.addToPhotoStream)*/
+        addToPhotoStream?(photo)
+        //A foto dps de capturada, é adicionada ao fluxo de fotos da camera. Como o modelo de dados.
+        /*#-code-walkthrough(photoflow.addToPhotoStream)*/
+    }
+}
+
+extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = sampleBuffer.imageBuffer else { return }
+        
+        if connection.isVideoOrientationSupported,
+           let videoOrientation = videoOrientationFor(deviceOrientation) {
+            connection.videoOrientation = videoOrientation
+        }
+
+        addToPreviewStream?(CIImage(cvPixelBuffer: pixelBuffer))
+    }
+}
+
+fileprivate extension UIScreen {
+
+    var orientation: UIDeviceOrientation {
+        let point = coordinateSpace.convert(CGPoint.zero, to: fixedCoordinateSpace)
+        if point == CGPoint.zero {
+            return .portrait
+        } else if point.x != 0 && point.y != 0 {
+            return .portraitUpsideDown
+        } else if point.x == 0 && point.y != 0 {
+            return .landscapeRight //.landscapeLeft
+        } else if point.x != 0 && point.y == 0 {
+            return .landscapeLeft //.landscapeRight
+        } else {
+            return .unknown
+        }
+    }
+}
+
+fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "Camera")
+

@@ -2,7 +2,7 @@
 //  ThumbnailView.swift
 //  Nano4
 //
-//  Created by Débora Costa on 07/10/25.
+//  Created by Débora Costa on 08/10/25.
 //
 
 import SwiftUI
