@@ -25,7 +25,7 @@ struct GeminiView: View {
                 let model = ai.generativeModel(modelName: "gemini-2.5-flash")
                 
                 Task {
-                    let prompt = "Descreva essa imagem"
+                    let prompt = "Extraia da receita médica apenas os nomes dos medicamentos e suas respectivas posologias"
                     
                     let response = try await vm.generateDescription(from: image, withPrompt: prompt, type: model)
                     

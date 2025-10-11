@@ -1,6 +1,5 @@
 //
 //  ContentView.swift
-//  test55
 //
 //  Created by Débora Costa on 08/10/25.
 //
@@ -10,12 +9,17 @@ import AVFoundation
 
 struct ContentView: View {
 
+    // Salva se o usuário já viu o onboarding
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     
+    // Estados da câmera e pré-visualização
     @State private var capturedImage: UIImage?
     @State private var isShowingGeminiView = false
     @State private var triggerPhotoCapture = false
 
     var body: some View {
+        if hasSeenOnboarding {
+            
         ZStack {
             CameraView(
                 capturedImage: $capturedImage,
@@ -42,6 +46,7 @@ struct ContentView: View {
                 .padding(.bottom, 30)
             }
         }
+        //Quando a foto é tirada
         .onChange(of: capturedImage) { _, newImage in
             // Quando a imagem é capturada, ativamos a pré-visualização.
             // espaço para confirmação
@@ -49,24 +54,23 @@ struct ContentView: View {
                 isShowingGeminiView = true
             }
         }
+            //Mostra a view de pós-captura
         .fullScreenCover(isPresented: $isShowingGeminiView) {
             if let image = capturedImage {
+                WeekSlider()
                 GeminiView(image: image)
 
             }
         }
+            
+        } else {
+            OnboardingView() {
+                // Quando o usuário tocar no botão, marcamos que já viu o onboarding
+                hasSeenOnboarding = true
+            }
+        }
     }
 }
-
-
-// A View de pré-visualização da foto permanece a mesma.
-
-
-// Representa o UIViewController que gerencia a câmera.
-
-
-// O UIViewController que contém a lógica do AVFoundation.
-
 
 #Preview {
     ContentView()

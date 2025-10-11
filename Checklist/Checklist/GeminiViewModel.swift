@@ -26,7 +26,7 @@ final class GeminiViewModel {
                 
                 // Extrai o texto da resposta (continua igual)
                 guard let text = response.text else {
-                    return "Não foi possível gerar uma descrição. Tente novamente."
+                    return "Não foi possível ler a receita. Tente novamente."
                 }
                 
                 return text
