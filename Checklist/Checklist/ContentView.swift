@@ -76,7 +76,13 @@ struct ContentView: View {
             // Mostra a tela da IA após a confirmação
              .fullScreenCover(isPresented: $isShowingGeminiView) {
                  if let image = capturedImage {
-                     GeminiView(image: image)
+                     GeminiView(
+                        image: image,
+                        onRetake: {
+                            capturedImage = nil
+                            isShowingGeminiView = false
+                        }
+                    )
                  }
              }
             
