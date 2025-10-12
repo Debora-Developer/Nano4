@@ -12,11 +12,15 @@ struct GeminiView: View {
     private let ai = FirebaseAI.firebaseAI(backend: .googleAI())
     private let vm = GeminiViewModel()
     
+    @EnvironmentObject var reminderRepo: ReminderRepository
+    
     @State private var responseText: String? = nil
     @State private var isLoading = true
     
     var image: UIImage
     var onRetake: () -> Void
+    // Novo callback para sinalizar o fim do fluxo
+    var onFlowComplete: () -> Void
     
     var body: some View {
         Group {
@@ -29,13 +33,15 @@ struct GeminiView: View {
                                 .font(.footnote)
                         }
                     } else if let text = responseText {
-                        PrescriptionView(
-                            text: text,
-                            onRetake: onRetake,
-                            onConfirm: {
-                                // ação futura — talvez salvar no Firebase
-                            }
-                        )
+                        NavigationStack{
+                            PrescriptionView(
+                                text: text,
+                                onRetake: onRetake,
+                                onConfirm: {}, // A navegação é tratada pelo NavigationLink
+                                onFlowComplete: onFlowComplete // Passa o callback adiante
+                            )
+                            .environmentObject(reminderRepo)
+                        }
                     } else {
                         Text("Não foi possível ler a receita. Tente novamente.")
                             .foregroundColor(.red)
@@ -45,9 +51,14 @@ struct GeminiView: View {
                     Task {
                         let model = ai.generativeModel(modelName: "gemini-2.5-flash")
                         let prompt = """
-                        Extraia da receita médica apenas os nomes dos medicamentos e suas respectivas posologias, formatando o texto como uma lista limpa.
-                        """
-                        
+Extraia da imagem da receita médica os nomes dos medicamentos, suas dosagens e as instruções.
+Formate CADA medicamento estritamente da seguinte forma, com cada um em uma nova linha:
+Nome do Medicamento (Dosagem): Instrução de uso
+
+Exemplo:
+Amoxicilina (500mg): Tomar 1 cápsula a cada 8 horas.
+Dipirona (1g): Tomar 1 comprimido se houver dor.
+"""
                         do {
                             let response = try await vm.generateDescription(from: image, withPrompt: prompt, type: model)
                             DispatchQueue.main.async {
@@ -66,6 +77,3 @@ struct GeminiView: View {
             }
         }
 
-        #Preview {
-            GeminiView(image: UIImage(systemName: "photo")!, onRetake: {})
-        }

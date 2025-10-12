@@ -1,26 +1,29 @@
 //
-//  ContentView.swift
+//  AddPrescriptionView.swift
+//  Checklist
 //
-//  Created by Débora Costa on 08/10/25.
+//  Created by Débora Costa on 12/10/25.
 //
 
 import SwiftUI
-import AVFoundation
 
-struct ContentView: View {
-
-    // Salva se o usuário já viu o onboarding
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+struct AddPrescriptionView: View {
+    // Controla o fechamento desta view modal
+    @Environment(\.dismiss) var dismiss
     
-    // Estados da câmera e pré-visualização
+    // Recebe o repositório do ambiente para poder salvar os lembretes
+    @EnvironmentObject var reminderRepo: ReminderRepository
+    
+    // Ação a ser executada quando o fluxo for concluído com sucesso
+    var onComplete: () -> Void
+    
+    // Estados internos que gerenciam o fluxo
     @State private var capturedImage: UIImage?
     @State private var isShowingPreview = false
     @State private var isShowingGeminiView = false
     @State private var triggerPhotoCapture = false
 
     var body: some View {
-        if hasSeenOnboarding {
-            
         ZStack {
             CameraView(
                 capturedImage: $capturedImage,
@@ -47,54 +50,46 @@ struct ContentView: View {
                 .padding(.bottom, 30)
             }
         }
-        //Quando a foto é tirada
         .onChange(of: capturedImage) { _, newImage in
-            // Quando a imagem é capturada, ativamos a pré-visualização.
-            // espaço para confirmação
             if newImage != nil {
                 isShowingPreview = true
             }
         }
-            //Mostra a view de pós-captura
+        // Modal para a pré-visualização da foto
         .fullScreenCover(isPresented: $isShowingPreview) {
             if let image = capturedImage {
                 PhotoPreviewView(
                     image: image,
                     onConfirm: {
-                        //Usuário confirmou - abre IA
                         isShowingPreview = false
                         isShowingGeminiView = true
                     },
                     onRetake: {
-                        // Usuário quer refazer — volta à câmera
                         capturedImage = nil
                         isShowingPreview = false
                     }
                 )
             }
         }
-            // Mostra a tela da IA após a confirmação
-             .fullScreenCover(isPresented: $isShowingGeminiView) {
-                 if let image = capturedImage {
-                     GeminiView(
-                        image: image,
-                        onRetake: {
-                            capturedImage = nil
-                            isShowingGeminiView = false
-                        }
-                    )
-                 }
-             }
-            
-        } else {
-            OnboardingView() {
-                // Quando o usuário tocar no botão, marcamos que já viu o onboarding
-                hasSeenOnboarding = true
+        // Modal para a view da IA (Gemini)
+        .fullScreenCover(isPresented: $isShowingGeminiView) {
+            if let image = capturedImage {
+                // GeminiView agora recebe o onComplete para finalizar o fluxo
+                GeminiView(
+                    image: image,
+                    onRetake: {
+                        capturedImage = nil
+                        isShowingGeminiView = false
+                    },
+                    onFlowComplete: {
+                        // Quando o fluxo terminar, chame o onComplete e feche a modal
+                        onComplete()
+                        dismiss()
+                    }
+                )
+                // Importante: Passe o environmentObject para a próxima tela
+                .environmentObject(reminderRepo)
             }
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

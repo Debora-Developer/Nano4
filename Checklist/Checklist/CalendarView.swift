@@ -33,6 +33,7 @@ struct WeekDay: Identifiable {
 struct DayView: View {
     let day: WeekDay
     let isSelected: Bool
+    var namespace: Namespace.ID
     
     var body: some View {
         VStack(spacing: 15) {
@@ -49,23 +50,24 @@ struct DayView: View {
             ZStack {
                 if isSelected {
                     Capsule()
-                        .fill(Color(red: 0.95, green: 0.42, blue: 0.37))
+                        .fill(Color(red: 0.51, green: 0.67, blue: 0.02))
                         .matchedGeometryEffect(id: "selectedBackground", in: namespace)
                 }
                 
                 if day.isToday {
                     Circle()
-                        .fill(isSelected ? .clear : Color(red: 0.95, green: 0.42, blue: 0.37).opacity(0.5))
+                        .fill(isSelected ? .clear : Color(red: 0.51, green: 0.67, blue: 0.02, opacity: 0.5))
                         .frame(width: 40, height: 40)
                 }
             }
         )
     }
-    var namespace: Namespace.ID
 }
 
 
 struct WeekSlider: View {
+    // Cria uma "ponte" para a view mãe.
+    @Binding var selectedDate: Date
     
     @State private var days: [WeekDay] = []
     @State private var selectedDayId: UUID?
@@ -75,7 +77,6 @@ struct WeekSlider: View {
     
     var body: some View {
         VStack {
-
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20) {
@@ -89,6 +90,8 @@ struct WeekSlider: View {
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                                     selectedDayId = day.id
+                                    // Quando um dia é tocado, atualize a data na view mãe.
+                                    selectedDate = day.date
                                 }
                             }
                         }
@@ -98,35 +101,45 @@ struct WeekSlider: View {
                 .onAppear {
                     self.days = generateDays()
                     
-                    let todayId = days.first(where: { $0.isToday })?.id
-                    self.selectedDayId = todayId
-                    
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            proxy.scrollTo(todayId, anchor: .center)
+                    // Inicializa a seleção com a data de hoje
+                    if let today = days.first(where: { $0.isToday }) {
+                        self.selectedDayId = today.id
+                        proxy.scrollTo(today.id, anchor: .center)
+                    }
+                }
+                //Reage a mudanças na data selecionada pela view mãe
+                .onChange(of: selectedDate) { _, newDate in
+                    if let newSelectedDay = days.first(where: { Calendar.current.isDate($0.date, inSameDayAs: newDate) }) {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            selectedDayId = newSelectedDay.id
+                            proxy.scrollTo(newSelectedDay.id, anchor: .center)
                         }
                     }
                 }
             }
-            .frame(height: 90) // Altura da barra de rolagem
         }
+        .frame(height: 90) // Altura da barra de rolagem
     }
     
-    private func generateDays() -> [WeekDay] {
-        let calendar = Calendar.current
-        let today = Date()
-        var tempDays: [WeekDay] = []
-        
-        // Gera 30 dias no passado e 30 dias no futuro
-        for i in -15...15 {
-            if let date = calendar.date(byAdding: .day, value: i, to: today) {
-                tempDays.append(WeekDay(date: date))
+        func generateDays() -> [WeekDay] {
+            let calendar = Calendar.current
+            let today = Date()
+            var tempDays: [WeekDay] = []
+            
+            // Gera 30 dias no passado e 30 dias no futuro
+            for i in -30...30 {
+                if let date = calendar.date(byAdding: .day, value: i, to: today) {
+                    tempDays.append(WeekDay(date: date))
+                }
             }
-        }
-        return tempDays
+            return tempDays
     }
 }
 
-#Preview {
-    WeekSlider()
-}
+    // Atualiza o Preview para funcionar com o @Binding
+    struct WeekSlider_Preview: View {
+        @State private var previewDate = Date()
+        var body: some View {
+            WeekSlider(selectedDate: $previewDate)
+        }
+    }

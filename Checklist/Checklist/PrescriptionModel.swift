@@ -1,53 +1,26 @@
 //
-//  File.swift
+//  Prescription Model.swift
 //  Checklist
 //
 //  Created by Débora Costa on 12/10/25.
 //
 
-
 import Foundation
 
-//Parseia o texto da IA
-//A IA retorna o texto em formato simples. Quebra o texto em medicamentos usando separação por linhas em branco
+struct PrescriptionModel: Identifiable, Codable {
+    var id = UUID()
+    var name: String               // Ex: "Amoxicilina, 500mg"
+    var dosage: String             // Ex: "1 cápsula"
+    var frequencyHours: Int        // Ex: 8 (a cada 8 horas)
+    var durationDays: Int          // Ex: 7 dias
+    var notes: String?             // Ex: "Tomar se houver dor"
+    var startDate: Date            // Data de início
+    var endDate: Date              // Data de término
 
-func parsePrescriptionText(_ text: String) -> [Medication] {
-    let components = text.components(separatedBy: "\n\n")
-    var medications: [Medication] = []
-
-    for component in components {
-        let lines = component.split(separator: "\n").map { String($0) }
-        guard lines.count >= 2 else { continue }
-
-        let nameAndDose = lines[0]
-        let instruction = lines[1]
-
-        let parts = nameAndDose.components(separatedBy: ", ")
-        let name = parts.first ?? ""
-        let dosage = parts.count > 1 ? parts[1] : ""
-
-        // exemplo simples de duração
-        let start = Date()
-        let end = Calendar.current.date(byAdding: .day, value: 21, to: start)!
-
-        // cria horários padrões (7h, 15h, 23h)
-        let times = ["07:00", "15:00", "23:00"].compactMap { timeString in
-            var components = DateComponents()
-            let parts = timeString.split(separator: ":")
-            components.hour = Int(parts[0])
-            components.minute = Int(parts[1])
-            return Calendar.current.date(from: components)
-        }
-
-        medications.append(Medication(
-            name: name,
-            dosage: dosage,
-            instruction: instruction,
-            startDate: start,
-            endDate: end,
-            times: times
-        ))
+    // Computed property de conveniência
+    var formattedDuration: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return "\(formatter.string(from: startDate)) até \(formatter.string(from: endDate))"
     }
-
-    return medications
 }
