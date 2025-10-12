@@ -14,6 +14,7 @@ struct ContentView: View {
     
     // Estados da câmera e pré-visualização
     @State private var capturedImage: UIImage?
+    @State private var isShowingPreview = false
     @State private var isShowingGeminiView = false
     @State private var triggerPhotoCapture = false
 
@@ -51,17 +52,33 @@ struct ContentView: View {
             // Quando a imagem é capturada, ativamos a pré-visualização.
             // espaço para confirmação
             if newImage != nil {
-                isShowingGeminiView = true
+                isShowingPreview = true
             }
         }
             //Mostra a view de pós-captura
-        .fullScreenCover(isPresented: $isShowingGeminiView) {
+        .fullScreenCover(isPresented: $isShowingPreview) {
             if let image = capturedImage {
-                WeekSlider()
-                GeminiView(image: image)
-
+                PhotoPreviewView(
+                    image: image,
+                    onConfirm: {
+                        //Usuário confirmou - abre IA
+                        isShowingPreview = false
+                        isShowingGeminiView = true
+                    },
+                    onRetake: {
+                        // Usuário quer refazer — volta à câmera
+                        capturedImage = nil
+                        isShowingPreview = false
+                    }
+                )
             }
         }
+            // Mostra a tela da IA após a confirmação
+             .fullScreenCover(isPresented: $isShowingGeminiView) {
+                 if let image = capturedImage {
+                     GeminiView(image: image)
+                 }
+             }
             
         } else {
             OnboardingView() {
