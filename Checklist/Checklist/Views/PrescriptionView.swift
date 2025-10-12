@@ -45,7 +45,11 @@ struct PrescriptionView: View {
                 }
                 
                 // Botão de confirmar
-                Button(action: onConfirm) {
+                Button(action: {
+                    let meds = parsePrescriptionText(text)
+                    //Navegue para ReminderSetupView com esses medicamentos
+                }
+                ) {
                     Text("Confirmar informações")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
